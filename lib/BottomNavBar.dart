@@ -5,10 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'AddEvents/AddMemory.dart';
+import 'AddEvents/AddReminder.dart';
 import 'Global.dart';
 import 'MainPageView/MainPageView.dart';
 import 'ProfilePage/ProfilePage.dart';
 import 'Tasks/ToDoList.dart';
+import 'package:unicorndial/unicorndial.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -62,13 +65,53 @@ class BottomNavBarState extends State<BottomNavBar> {
             indicatorColor: Colors.white,
 
           ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-            child: Icon(Icons.add),
-            backgroundColor: Colors.deepPurple.shade300,
+          floatingActionButton: UnicornDialer(
+            parentButtonBackground: Colors.deepPurple.shade300,
+            childButtons: <UnicornButton>[
+              UnicornButton(
+                hasLabel: true,
+                labelText: 'Add memory',
+                labelColor: Colors.white,
+                labelBackgroundColor: Colors.deepPurple.shade300,
+                currentButton: FloatingActionButton(
+                    heroTag: "Add memory",
+                    child: Icon(Icons.add_a_photo),
+                    backgroundColor: Colors.deepPurple.shade300,
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Addmemory()),
+                      );
+                    }
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: 'Add reminder',
+                labelColor: Colors.white,
+                labelBackgroundColor: Colors.deepPurple.shade300,
+                currentButton: FloatingActionButton(
+                    heroTag: "Add reminder",
+                    child: Icon(Icons.calendar_today),
+                    backgroundColor: Colors.deepPurple.shade300,
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddEvent()),
+                      );
+                    }
+                ),
+              )
+            ],
+            hasBackground: false,
+            hasNotch: true,
+            onMainButtonPressed: () => print('Unicorn DIALER pressed'),
+            parentButton: Icon(Icons.add),
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
         ),
       ),
     );
