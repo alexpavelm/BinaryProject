@@ -6,20 +6,21 @@ import 'package:flutter/material.dart';
 import '../Global.dart';
 
 class ProfilePage extends StatefulWidget {
-
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   var global = Global();
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: getProfile(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if(snapshot.connectionState == ConnectionState.done) {
-          return profileView(context, ProfileObject.fromSnapshot(global.profile));
+        if (snapshot.connectionState == ConnectionState.done) {
+          return profileView(
+              context, ProfileObject.fromSnapshot(global.profile));
         } else {
           return Center(child: CircularProgressIndicator());
         }
@@ -29,7 +30,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future getProfile() async {
     var firebase = Firestore.instance;
-    global.profile = await firebase.collection("profiles").reference().document(global.user.toString()).get();
+    global.profile = await firebase
+        .collection("profiles")
+        .reference()
+        .document(global.user.toString())
+        .get();
     return global.profile;
   }
 
@@ -74,40 +79,72 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Center(
-                    child: Text("Birth date: " + profile.birth,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w500,
-                        )),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Birth date: ",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w800,
+                          )),
+                      Text(profile.birth,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w500,
+                          ))
+                    ],
                   ),
                 ),
-                Center(
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4, bottom: 4, left: 50, right: 50),
-                      child: Text(
-                          "Address: " + profile.address,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w500,
-                          ))),
-                ),
-                Center(
-                  child: Padding(
-                      padding: const EdgeInsets.only(
-                          top: 4, bottom: 4, left: 50, right: 50),
-                      child: Text("Blood type: " + profile.blood,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w500,
-                          ))),
-                ),
+                Padding(
+                    padding: const EdgeInsets.only(
+                        top: 4, bottom: 4, left: 50, right: 50),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Home address: ",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                            )),
+                        Text(profile.address,
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w500,
+                            ))
+                      ],
+                    )),
+                Padding(
+                    padding: const EdgeInsets.only(
+                        top: 4, bottom: 4, left: 50, right: 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Blood type: ",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                            )),
+                        Text(profile.blood,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w500,
+                            ))
+                      ],
+                    )),
                 Padding(
                   padding: const EdgeInsets.only(
                       top: 20.0, bottom: 20, left: 40, right: 40),
@@ -123,7 +160,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       )),
                 ),
                 Column(
-                  children: profile.family.split("*").map((data) => familyCard(data)).toList(),
+                  children: profile.family
+                      .split("*")
+                      .map((data) => familyCard(data))
+                      .toList(),
                 )
               ],
             ),
