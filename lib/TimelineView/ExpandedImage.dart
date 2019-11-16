@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ExpandedImage extends StatelessWidget {
   final String image;
@@ -21,8 +22,9 @@ class ExpandedImage extends StatelessWidget {
       body: new Container(
         color: Colors.black,
         alignment: Alignment(0.0, 0.0),
-        child: new Image.network(
-          image,
+        child: PhotoView(
+          imageProvider: NetworkImage(image),
+          enableRotation: false,
         ),
       ),
     );
