@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -53,7 +54,9 @@ class _MainPageViewState extends State<MainPageView> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     Text(
-                      "Hey, " + global.name + "!",
+                      "Hey, " +
+                          global.profile.data['name'].toString().split(" ")[0] +
+                          "!",
                       style: TextStyle(
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.bold,
@@ -65,11 +68,14 @@ class _MainPageViewState extends State<MainPageView> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 6,
                   width: MediaQuery.of(context).size.height / 6,
-                  child: CircleAvatar(
-                      radius: 35,
-                      backgroundImage: NetworkImage(
-                        global.image,
-                      )),
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: global.profile['image'],
+                      fit: BoxFit.cover,
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
                 )
               ],
             ),
@@ -176,10 +182,11 @@ class _MainPageViewState extends State<MainPageView> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(children: <Widget>[
-            CachedNetworkImage(imageUrl: "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
-            placeholder: (context, url) => CircularProgressIndicator(),
-
-          ),
+            CachedNetworkImage(
+              imageUrl:
+                  "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
+              placeholder: (context, url) => CircularProgressIndicator(),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
@@ -221,142 +228,264 @@ class _MainPageViewState extends State<MainPageView> {
     );
   }
 
+  IconData getIcon(String data) {
+    switch(data) {
+      case "Great": return FontAwesomeIcons.laughBeam; break;
+      case "Good": return FontAwesomeIcons.smile; break;
+      case "Meh": return FontAwesomeIcons.meh; break;
+      default : return FontAwesomeIcons.frown; break;
+    }
+  }
+
   feedbackWidget() {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Container(
-        height: MediaQuery.of(context).size.height / 6,
-        width: MediaQuery.of(context).size.width,
-        child: Card(
-          elevation: 10,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          child: Column(
-            children: <Widget>[
+    var now = DateTime.now();
+    var today = DateTime(now.year, now.month, now.day);
+    if (today == global.lastDay) {
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 6,
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            elevation: 10,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(3.0),
                 child: Text(
-                  "Tell us how you feel today",
+                  "Today you said you felt",
                   style: TextStyle(color: Colors.grey, fontSize: 18),
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: 80,
-                      height: 70,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(
-                              FontAwesomeIcons.laughBeam,
-                              size: 35,
-                              color: Colors.black.withOpacity(0.6),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Hero(
+                                    child: Icon(
+                                      getIcon(global.selectedMood),
+                                      size: 35,
+                                      color: Colors.black.withOpacity(0.6),
+                                    ),
+                                    tag: "icon",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
                             ),
                           ),
-                          Text(
-                            "Great",
-                            style: TextStyle(fontFamily: 'Raleway'),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
+                        ),
+                        Text(
+                          global.selectedMood,
+                          style: TextStyle(fontFamily: 'Raleway'),
+                        )
+                      ],
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: 80,
-                      height: 70,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(
-                              FontAwesomeIcons.smile,
-                              size: 35,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                          Text(
-                            "Good",
-                            style: TextStyle(fontFamily: 'Raleway'),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: 80,
-                      height: 70,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(
-                              FontAwesomeIcons.meh,
-                              size: 35,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                          Text(
-                            "Meh",
-                            style: TextStyle(fontFamily: 'Raleway'),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      width: 80,
-                      height: 70,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Icon(
-                              FontAwesomeIcons.frown,
-                              size: 35,
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                          ),
-                          Text(
-                            "Bad",
-                            style: TextStyle(fontFamily: 'Raleway'),
-                          )
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
+                  ]),
+            ]),
           ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height / 6,
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            elevation: 10,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Text(
+                    "Tell us how you feel today",
+                    style: TextStyle(color: Colors.grey, fontSize: 18),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        width: 80,
+                        height: 70,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    global.lastDay = today;
+                                    global.selectedMood = "Great";
+                                    sendMood("great");
+                                  });
+                                },
+                                child: Hero(
+                                  child: Icon(
+                                    FontAwesomeIcons.laughBeam,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ), tag: "icon",
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Great",
+                              style: TextStyle(fontFamily: 'Raleway'),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        width: 80,
+                        height: 70,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    global.lastDay = today;
+                                    global.selectedMood = "Good";
+                                    sendMood("good");
+                                  });
+                                },
+                                child: Hero(
+                                  child: Icon(
+                                    FontAwesomeIcons.smile,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ), tag: "icon",
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Good",
+                              style: TextStyle(fontFamily: 'Raleway'),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        width: 80,
+                        height: 70,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    global.lastDay = today;
+                                    global.selectedMood = "Meh";
+                                    sendMood("meh");
+                                  });
+                                },
+                                child: Hero(
+                                  child: Icon(
+                                    FontAwesomeIcons.meh,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ), tag: "icon",
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Meh",
+                              style: TextStyle(fontFamily: 'Raleway'),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Container(
+                        width: 80,
+                        height: 70,
+                        child: Column(
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    global.lastDay = today;
+                                    global.selectedMood = "Bad";
+                                    sendMood("bad");
+                                  });
+                                },
+                                child: Hero(
+                                  child: Icon(
+                                    FontAwesomeIcons.frown,
+                                    size: 35,
+                                    color: Colors.black.withOpacity(0.6),
+                                  ), tag: "icon",
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "Bad",
+                              style: TextStyle(fontFamily: 'Raleway'),
+                            )
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  sendMood(String data) async {
+    var f = Firestore.instance;
+    var now = DateTime.now();
+    await f.collection("moods").add({'date' : now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString(), 'mood' : data});
   }
 }
