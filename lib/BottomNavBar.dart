@@ -1,8 +1,8 @@
+import 'package:binary_project/ProfilePage/ProfilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'Global.dart';
 import 'MainPageView/MainPageView.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -17,7 +17,7 @@ class BottomNavBarState extends State<BottomNavBar> {
     MainPageView(),
     Center(child: Text("Second view")),
     Center(child: Text("Third view")),
-    Center(child: Text("4TH view")),
+    ProfilePage(),
   ];
 
   @override
