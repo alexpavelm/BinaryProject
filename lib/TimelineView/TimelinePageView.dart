@@ -39,8 +39,17 @@ class TimelinePageView extends StatelessWidget {
                   // the actual memory card
                   new Padding(
                     padding: const EdgeInsets.only(top: 20, left:70),
-
                       child: new MemoryCard(),
+                  ),
+                  new Positioned(
+                    top: 0.0,
+                    bottom: 0.0,
+                    left: 25.0,
+                    child: new Container(
+                      height: double.infinity,
+                      width: 1.0,
+                      color: Colors.white,
+                    ),
                   ),
                   // date
                   new Positioned(
@@ -76,7 +85,7 @@ class TimelinePageView extends StatelessWidget {
               ),
             );
           },
-          itemCount: 3,
+          itemCount: 5,
         ),
       ),
     );
