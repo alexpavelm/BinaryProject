@@ -15,12 +15,6 @@ class _ToDoListState extends State<ToDoList> {
   var global = Global();
   List<ToDo> todos = [];
 
-  _toggleToDo(ToDo todo, bool isChecked) {
-    setState(() {
-      todo.isDone = isChecked;
-    });
-  }
-
   Widget _buildItem(DocumentSnapshot data) {
     Task todo = Task.fromSnapshot(data);
     return Card(
@@ -33,7 +27,14 @@ class _ToDoListState extends State<ToDoList> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           ListTile(
-            leading: Icon(Icons.blur_circular, size: 50),
+            leading: global.careTaker ? InkWell(
+              child: Icon(Icons.clear, size: 50, color: Colors.red,),
+              onTap: () {
+                setState(() {
+                  _clearTask(data);
+                });
+              },
+            ):Icon(Icons.blur_circular, size: 50),
             title: Text(todo.title,
                 style: TextStyle(
                     fontSize: 17,
@@ -52,8 +53,8 @@ class _ToDoListState extends State<ToDoList> {
                   });
                 },
                 child: todo.isDone
-                    ? Icon(Icons.check_box)
-                    : Icon(Icons.check_box_outline_blank)),
+                    ? Icon(Icons.check_box, size: 40, color: Colors.green,)
+                    : Icon(Icons.check_box_outline_blank, size: 40)),
           )
         ],
       ),
@@ -62,6 +63,10 @@ class _ToDoListState extends State<ToDoList> {
 
   setDone(DocumentSnapshot data) async {
     await data.reference.updateData({'isDone' : true});
+  }
+
+  _clearTask(DocumentSnapshot data) async{
+    await data.reference.delete();
   }
 
   @override
