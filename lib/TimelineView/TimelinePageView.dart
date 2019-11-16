@@ -18,16 +18,13 @@ class _TimelinePageViewState extends State<TimelinePageView> {
       storageBucket: 'gs://binaryapp-79f95.appspot.com/');
   final double cardHeight = 180;
 
-  final String pageTitle = "Your memories";
+  final String pageTitle = "Your memory timeline";
   var global = Global();
 
   final DateTime my_date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.deepPurple.shade300,
@@ -68,17 +65,8 @@ class _TimelinePageViewState extends State<TimelinePageView> {
 
   Widget buildList(List<DocumentSnapshot> snapshot) {
     return ListView(
-      padding: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.only(bottom:50),
       children: snapshot.map((data) => buildItem(EventObject.fromSnapshot(data))).toList(),
-    );
-  }
-
-  oldList() {
-    return new ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-
-      },
-      itemCount: 5,
     );
   }
 
