@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'MemoryCard.dart';
 
 class TimelinePageView extends StatelessWidget {
-  final double cardHeight = MemoryCard.cardHeight;
+  final double cardHeight = 180;
   final String pageTitle = "Your memories";
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.deepPurple.shade400,
+        backgroundColor: Colors.deepPurple.shade300,
         title: new Text(
             pageTitle,
           style: new TextStyle(
