@@ -16,13 +16,14 @@ class BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> _children = [
     MainPageView(),
     Center(child: Text("Second view")),
-    Center(child: Text("Third view"))
+    Center(child: Text("Third view")),
+    Center(child: Text("4TH view")),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: new Scaffold(
@@ -30,19 +31,39 @@ class BottomNavBarState extends State<BottomNavBar> {
           bottomNavigationBar: TabBar(
             tabs: [
               Tab(
-                icon: Icon(FontAwesomeIcons.globeAmericas),
+                icon: Icon(FontAwesomeIcons.home, size: 18),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 27),
+                child: Tab(
+                  icon: Icon(
+                    FontAwesomeIcons.tasks,
+                    size: 18,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 27),
+                child: Tab(
+                  icon: Icon(FontAwesomeIcons.list, size: 18),
+                ),
               ),
               Tab(
-                icon: Icon(FontAwesomeIcons.clipboardList),
+                icon: Icon(FontAwesomeIcons.user, size: 18),
               ),
-              Tab(
-                icon: Icon(FontAwesomeIcons.questionCircle),
-              )
             ],
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
+            labelColor: Colors.deepPurple.shade300,
+            unselectedLabelColor: Colors.grey.shade400,
+            indicatorColor: Colors.white,
+
           ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.add),
+            backgroundColor: Colors.deepPurple.shade300,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         ),
       ),
     );
