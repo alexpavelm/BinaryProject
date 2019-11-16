@@ -6,8 +6,12 @@ import 'MemoryCard.dart';
 class TimelinePageView extends StatelessWidget {
   final double cardHeight = 180;
   final String pageTitle = "Your memories";
+  final DateTime my_date = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
+
+
 
     return Scaffold(
       appBar: new AppBar(
@@ -71,7 +75,9 @@ class TimelinePageView extends StatelessWidget {
                           color: Colors.white,
                         ),
                         child: new Text(
-                            "2019",
+                            my_date.month.toString()
+                            + " "
+                            + my_date.year.toString(),
                             style: TextStyle(
                               color: Colors.deepPurple.shade400,
                               fontWeight: FontWeight.bold,
