@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'MemoryCard.dart';
 
 class TimelinePageView extends StatelessWidget {
-  final double cardHeight = MemoryCard.cardHeight;
+  final double cardHeight = 180;
   final String pageTitle = "Your memories";
+  final DateTime my_date = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
 
+
+
     return Scaffold(
       appBar: new AppBar(
-        backgroundColor: Colors.deepPurple.shade400,
+        backgroundColor: Colors.deepPurple.shade300,
         title: new Text(
             pageTitle,
           style: new TextStyle(
@@ -39,8 +43,17 @@ class TimelinePageView extends StatelessWidget {
                   // the actual memory card
                   new Padding(
                     padding: const EdgeInsets.only(top: 20, left:70),
-
                       child: new MemoryCard(),
+                  ),
+                  new Positioned(
+                    top: 0.0,
+                    bottom: 0.0,
+                    left: 25.0,
+                    child: new Container(
+                      height: double.infinity,
+                      width: 1.0,
+                      color: Colors.white,
+                    ),
                   ),
                   // date
                   new Positioned(
@@ -62,7 +75,9 @@ class TimelinePageView extends StatelessWidget {
                           color: Colors.white,
                         ),
                         child: new Text(
-                            "2019",
+                            my_date.month.toString()
+                            + " "
+                            + my_date.year.toString(),
                             style: TextStyle(
                               color: Colors.deepPurple.shade400,
                               fontWeight: FontWeight.bold,
@@ -76,7 +91,7 @@ class TimelinePageView extends StatelessWidget {
               ),
             );
           },
-          itemCount: 3,
+          itemCount: 5,
         ),
       ),
     );
