@@ -1,3 +1,5 @@
+import 'package:binary_project/TimelineView/MemoryCard.dart';
+import 'package:binary_project/TimelineView/TimelinePageView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +18,7 @@ class BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> _children = [
     MainPageView(),
     Center(child: Text("Second view")),
-    Center(child: Text("Third view")),
+    TimelinePageView(),
     Center(child: Text("4TH view")),
   ];
 
