@@ -12,6 +12,7 @@ class Global {
   List<DocumentSnapshot> tasks;
 
   Future userID;
+  bool careTaker = true;
   String name = "Mark";
   String image = "https://www.rd.com/wp-content/uploads/2017/09/01-shutterstock_476340928-Irina-Bg-1024x683.jpg";
 }
