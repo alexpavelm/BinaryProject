@@ -1,3 +1,4 @@
+import 'package:binary_project/Tasks/ToDoList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,7 +16,7 @@ class BottomNavBar extends StatefulWidget {
 class BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> _children = [
     MainPageView(),
-    Center(child: Text("Second view")),
+    ToDoList(),
     Center(child: Text("Third view")),
     Center(child: Text("4TH view")),
   ];
