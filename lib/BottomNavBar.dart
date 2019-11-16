@@ -1,5 +1,6 @@
 import 'package:binary_project/TimelineView/MemoryCard.dart';
 import 'package:binary_project/TimelineView/TimelinePageView.dart';
+import 'package:binary_project/ProfilePage/ProfilePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -19,7 +20,7 @@ class BottomNavBarState extends State<BottomNavBar> {
     MainPageView(),
     Center(child: Text("Second view")),
     TimelinePageView(),
-    Center(child: Text("4TH view")),
+    ProfilePage(),
   ];
 
   @override
