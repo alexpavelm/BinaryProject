@@ -56,6 +56,18 @@ class _ToDoListState extends State<ToDoList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        backgroundColor: Colors.deepPurple.shade300,
+        title: new Text(
+          "Routine of the day",
+          style: new TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
@@ -65,19 +77,6 @@ class _ToDoListState extends State<ToDoList> {
         ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Text("Routine for the day",
-                      style: TextStyle(
-                          fontSize: 30,
-                          fontFamily: 'raleway',
-                          fontWeight: FontWeight.w700)),
-                )
-              ],
-            ),
             _buildItem(ToDo("Make breakfast",
                 "Would you like an omlette or a bagel, this morning?")),
             _buildItem(ToDo("Go out for a walk",
