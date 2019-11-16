@@ -1,6 +1,10 @@
+import 'package:binary_project/DataObjects/TaskObject.dart';
 import 'package:binary_project/Tasks/ToDo.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../Global.dart';
 
 class ToDoList extends StatefulWidget {
   @override
@@ -8,6 +12,7 @@ class ToDoList extends StatefulWidget {
 }
 
 class _ToDoListState extends State<ToDoList> {
+  var global = Global();
   List<ToDo> todos = [];
 
   _toggleToDo(ToDo todo, bool isChecked) {
@@ -16,7 +21,8 @@ class _ToDoListState extends State<ToDoList> {
     });
   }
 
-  Widget _buildItem(ToDo todo) {
+  Widget _buildItem(DocumentSnapshot data) {
+    Task todo = Task.fromSnapshot(data);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -41,6 +47,7 @@ class _ToDoListState extends State<ToDoList> {
             trailing: InkWell(
                 onTap: () {
                   setState(() {
+                    setDone(data);
                     todo.isDone = true;
                   });
                 },
@@ -51,6 +58,10 @@ class _ToDoListState extends State<ToDoList> {
         ],
       ),
     );
+  }
+
+  setDone(DocumentSnapshot data) async {
+    await data.reference.updateData({'isDone' : true});
   }
 
   @override
@@ -75,17 +86,37 @@ class _ToDoListState extends State<ToDoList> {
           Colors.blue.shade200,
           Colors.deepPurpleAccent.shade100.withOpacity(.5)
         ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-        child: Column(
-          children: <Widget>[
-            _buildItem(ToDo("Make breakfast",
-                "Would you like an omlette or a bagel, this morning?")),
-            _buildItem(ToDo("Go out for a walk",
-                "Should you take a walk in Regent's Park or St James's Park?")),
-            _buildItem(ToDo("Call a loved one",
-                "Why don't we give your son, Mark, a call?")),
-          ],
-        ),
+        child: buildBody(),
       ),
     );
   }
+
+  Widget buildBody() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: Firestore.instance.collection('tasks').snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+        global.tasks = snapshot.data.documents;
+        return buildList(global.tasks);
+      },
+    );
+  }
+
+  Widget buildList(List<DocumentSnapshot> snapshot) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 5.0),
+      children: snapshot.map((data) => _buildItem(data)).toList(),
+    );
+  }
+
+//  Column(
+//  children: <Widget>[
+//  _buildItem(ToDo("Make breakfast",
+//  "Would you like an omlette or a bagel, this morning?")),
+//  _buildItem(ToDo("Go out for a walk",
+//  "Should you take a walk in Regent's Park or St James's Park?")),
+//  _buildItem(ToDo("Call a loved one",
+//  "Why don't we give your son, Mark, a call?")),
+//  ],
+//  )
 }
