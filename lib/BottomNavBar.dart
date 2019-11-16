@@ -7,6 +7,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'Global.dart';
 import 'MainPageView/MainPageView.dart';
+import 'ProfilePage/ProfilePage.dart';
+import 'Tasks/ToDoList.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -18,7 +20,7 @@ class BottomNavBar extends StatefulWidget {
 class BottomNavBarState extends State<BottomNavBar> {
   final List<Widget> _children = [
     MainPageView(),
-    Center(child: Text("Second view")),
+    ToDoList(),
     TimelinePageView(),
     ProfilePage(),
   ];

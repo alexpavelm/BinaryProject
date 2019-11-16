@@ -106,8 +106,8 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 3),
       child: Card(
         elevation: 10,
-        shape: BeveledRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
           children: <Widget>[
