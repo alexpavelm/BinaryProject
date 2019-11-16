@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Global {
   static final Global _singleton = Global._internal();
 
@@ -6,6 +8,7 @@ class Global {
   }
 
   Global._internal();
+  List<DocumentSnapshot> events;
 
   Future userID;
   String name = "Mark";

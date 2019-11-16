@@ -1,10 +1,12 @@
+import 'package:binary_project/DataObjects/EventObject.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MemoryCard extends StatelessWidget {
+  EventObject event;
+  MemoryCard(this.event);
    final double cardWidth = 250;
-   final String imageLink = "https://qwr.ro/j6MA";
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +31,8 @@ class MemoryCard extends StatelessWidget {
             children: <Widget>[
               Container(
                 child: CachedNetworkImage(
-                  imageUrl: "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
-                  placeholder: (context, url) => CircularProgressIndicator(),
+                  imageUrl: event.images.split(",")[0],
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
                 ),
               ),
               Padding(
@@ -40,7 +42,7 @@ class MemoryCard extends StatelessWidget {
                   right: 8.0,
                 ),
                 child: new Text(
-                  "that time i did a slam dunk in the backyard of a boulangerie hehe",
+                  event.title,
                   style: new TextStyle(
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Raleway',
