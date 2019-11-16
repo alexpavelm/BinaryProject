@@ -15,7 +15,15 @@ class _ProfilePageState extends State<ProfilePage> {
   var global = Global();
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return Scaffold(
+        body: Container(
+        width: MediaQuery.of(context).size.width,
+    decoration: BoxDecoration(
+    gradient: LinearGradient(colors: <Color>[
+    Colors.blue.shade200,
+    Colors.deepPurpleAccent.shade100.withOpacity(.5)
+    ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+    child: FutureBuilder(
       future: getProfile(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if(snapshot.connectionState == ConnectionState.done) {
@@ -24,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
           return Center(child: CircularProgressIndicator());
         }
       },
-    );
+    ),),);
   }
 
   Future getProfile() async {
@@ -34,15 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget profileView(BuildContext context, ProfileObject profile) {
-    return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: <Color>[
-          Colors.blue.shade200,
-          Colors.deepPurpleAccent.shade100.withOpacity(.5)
-        ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-        child: Padding(
+    return Padding(
           padding: const EdgeInsets.all(4.0),
           child: Container(
             child: ListView(
@@ -128,8 +128,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-        ),
-      ),
     );
   }
 }
@@ -141,7 +139,7 @@ Widget familyCard(String data) {
   String birthdate = list[2];
   String image = list[3];
   return Padding(
-    padding: const EdgeInsets.only(bottom: 3),
+    padding: const EdgeInsets.only(bottom: 4),
     child: Card(
       elevation: 10,
       shape: RoundedRectangleBorder(
