@@ -8,7 +8,6 @@ class MemoryCard extends StatelessWidget {
   final EventObject event;
   final double cardWidth = 250;
 
-
   MemoryCard(this.event);
 
   @override
