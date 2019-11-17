@@ -64,7 +64,6 @@ class _AddMemberState extends State<AddMember> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                maxLines: null,
                 decoration: new InputDecoration(
                     border: new OutlineInputBorder(
                       borderSide: const BorderSide(),
@@ -81,7 +80,6 @@ class _AddMemberState extends State<AddMember> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TextField(
-                maxLines: null,
                 decoration: new InputDecoration(
                     border: new OutlineInputBorder(
                       borderSide: const BorderSide(),
@@ -164,13 +162,14 @@ class _AddMemberState extends State<AddMember> {
     String name = nameController.text;
     String relation = relationController.text;
     String birth = birthController.text;
-    String family;
+    String family = "";
     var firestore = Firestore.instance;
     if(url != null) {
-      if(Global().profile.data['family'] == "") {
+      print(url);
+      if(Global().profile.data['family'].toString().length < 3) {
         family = name + "," + relation + "," + birth + "," + url;
       } else {
-        family = family + "*" + name + "," + relation + "," + birth + "," + url;
+        family = Global().profile.data['family'] + "*" + name + "," + relation + "," + birth + "," + url;
       }
       await firestore.collection('profiles').document(Global().user.toString()).updateData({'family' : family});
       Navigator.pop(context);

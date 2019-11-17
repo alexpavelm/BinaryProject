@@ -33,5 +33,4 @@ class ProfileObject {
 
   ProfileObject.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
-
 }
