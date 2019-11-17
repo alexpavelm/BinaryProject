@@ -12,7 +12,7 @@ class Global {
   List<DocumentSnapshot> tasks;
 
   Future userID;
-  bool careTaker = false;
+  bool careTaker;
   DocumentSnapshot profile;
   int user = 0;
   DateTime lastDay = DateTime(2019, 11, 16);

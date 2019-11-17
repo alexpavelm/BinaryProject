@@ -1,17 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'BottomNavBar.dart';
 import 'Global.dart';
 import 'LandingView/LandingView.dart';
+import 'LoadingView.dart';
 import 'MainPageView/MainPageView.dart';
 
 void main() {
   runApp(MyApp());
   SystemChrome.setEnabledSystemUIOverlays([]);
 }
-var global = Global();
 
 class MyApp extends StatelessWidget {
   @override
@@ -22,21 +23,26 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Scaffold(
-        body: FutureBuilder(builder: (_, snapshot) {
+        body: FutureBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
-            return BottomNavBar();
+            return LandingView();
           } else {
             return Center(child: CircularProgressIndicator());
           }
         },
-        future: getProfile(),),
+        future: getLocalData(),)
       ),
     );
   }
 
-  Future getProfile() async {
-    var firebase = Firestore.instance;
-    global.profile = await firebase.collection("profiles").reference().document(global.user.toString()).get();
-    return global.profile;
+  Future getLocalData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> data = (prefs.getString('lastDay') ?? "15/05/2019").split("/");
+    global.careTaker = (prefs.getBool('careTaker') ?? null);
+    global.user = (prefs.getInt('user') ?? 0);
+    global.selectedMood = (prefs.getString('mood') ?? "Good");
+    global.lastDay = DateTime(int.parse(data[2]), int.parse(data[1]), int.parse(data[0]));
+    return global.careTaker;
   }
+
 }
