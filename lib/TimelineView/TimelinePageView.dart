@@ -1,4 +1,5 @@
 import 'package:binary_project/DataObjects/EventObject.dart';
+import 'package:binary_project/LandingView/LandingView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,9 +11,17 @@ import 'MemoryCard.dart';
 class TimelinePageView extends StatefulWidget {
   @override
   _TimelinePageViewState createState() => _TimelinePageViewState();
+
+  static EventObject getRec(var global) {
+    if(global.events != null)
+      return EventObject.fromSnapshot(global.events.elementAt(3));
+    else
+      return null;
+  }
 }
 
 class _TimelinePageViewState extends State<TimelinePageView> {
+
   final FirebaseStorage storage = FirebaseStorage(
       app: Firestore.instance.app,
       storageBucket: 'gs://binaryapp-79f95.appspot.com/');
@@ -171,4 +180,6 @@ class _TimelinePageViewState extends State<TimelinePageView> {
     }
     return myDate + "\n" + date.year.toString();
   }
+
+
 }

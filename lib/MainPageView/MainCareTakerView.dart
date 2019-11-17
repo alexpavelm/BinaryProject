@@ -27,7 +27,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: <Color>[
               Colors.blue.shade200,
-              Colors.green.shade100.withOpacity(.5)
+              Colors.deepPurpleAccent.shade100.withOpacity(.5)
             ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
         child: Column(
           children: <Widget>[

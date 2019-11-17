@@ -1,3 +1,6 @@
+import 'package:binary_project/DataObjects/EventObject.dart';
+import 'package:binary_project/TimelineView/ExpandedMemory.dart';
+import 'package:binary_project/TimelineView/TimelinePageView.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +16,8 @@ class MainPageView extends StatefulWidget {
 }
 
 class _MainPageViewState extends State<MainPageView> {
-  var global = Global();
+  static var global = Global();
+  EventObject rec = TimelinePageView.getRec(global);
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,19 @@ class _MainPageViewState extends State<MainPageView> {
         child: Column(
           children: <Widget>[
             welcomeWidget(),
+            feedbackWidget(),
             recommendWidget(),
-            memoryWidget(),
-            feedbackWidget()
+            rec == null? nothing(): memoryWidget(rec),
+//            global.recommendedEvent != null ? memoryWidget(): nothing(),
           ],
         ),
       ),
     );
   }
 
+  nothing() {
+    return Container();
+  }
   welcomeWidget() {
     return Padding(
       padding: const EdgeInsets.all(4.0),
@@ -187,7 +195,7 @@ class _MainPageViewState extends State<MainPageView> {
     );
   }
 
-  memoryWidget() {
+  Widget memoryWidget(EventObject rec) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
@@ -198,45 +206,51 @@ class _MainPageViewState extends State<MainPageView> {
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(children: <Widget>[
             CachedNetworkImage(
               imageUrl:
-                  "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
+              "https://firebasestorage.googleapis.com/v0/b/binaryapp-79f95.appspot.com/o/City-break-paris-2019.jpg?alt=media&token=89d81fae-73ff-45d1-8850-5c4c410275e6",
               placeholder: (context, url) => CircularProgressIndicator(),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                width: MediaQuery.of(context).size.width / 8 * 5 - 50,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Paris trip",
-                          style: TextStyle(fontFamily: 'Raleway', fontSize: 23),
+                width: MediaQuery.of(context).size.width / 8 * 5 -70,
+                child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ExpandedMemory(this.rec)),
+              );
+            },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                    children: <Widget>[
+                      Text(
+                        rec.title,
+                        style: TextStyle(
+                            fontFamily: 'Raleway',
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
-                    Text(
-                      "Remember this? You've been here on 17 November 2018.",
-                      style: TextStyle(fontFamily: 'Raleway'),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        Text(
-                          "See more..",
-                          style: TextStyle(
-                              color: Colors.blue, fontFamily: 'Raleway'),
-                        )
-                      ],
-                    )
-                  ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            "Remember this? You were here on "
+                                + getDate(rec.date.toDate())
+                                + ".\nTap once to see more!",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontFamily: 'Raleway'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -244,6 +258,61 @@ class _MainPageViewState extends State<MainPageView> {
         ),
       ),
     );
+//    return Padding(
+//      padding: const EdgeInsets.all(4.0),
+//      child: Container(
+//        height: MediaQuery.of(context).size.height,
+//        width: MediaQuery.of(context).size.width,
+//        child: Card(
+//          elevation: 10,
+//          semanticContainer: true,
+//          clipBehavior: Clip.antiAliasWithSaveLayer,
+//          shape:
+//              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+//          child: InkWell(
+//            onTap: () {
+//              Navigator.push(
+//                context,
+//                MaterialPageRoute(
+//                    builder: (context) => ExpandedMemory(this.rec)),
+//              );
+//            },
+//            child: Row(children: <Widget>[
+////              CachedNetworkImage(
+////                imageUrl: rec.images[1].toString(),
+////                placeholder: (context, url) => CircularProgressIndicator(),
+////              ),
+//              Container(
+//                width: MediaQuery.of(context).size.width-50,
+//                height: MediaQuery.of(context).size.height*3,
+//                child: Column(
+//                  crossAxisAlignment: CrossAxisAlignment.stretch,
+////                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                  children: <Widget>[
+//                    new Image.network("https://firebasestorage.googleapis.com/v0/b/binaryapp-79f95.appspot.com/o/City-break-paris-2019.jpg?alt=media&token=89d81fae-73ff-45d1-8850-5c4c410275e6"),
+//                    Text(
+//                      "\"" + rec.title + "\"",
+//                      style: TextStyle(
+//                          fontWeight: FontWeight.bold,
+//                          fontFamily: 'Raleway',
+//                          fontSize: 23,
+//                      ),
+//                    ),
+//                    Text(
+//                      "Remember this memory? This happened on "
+//                      + getDate(rec.date.toDate()),
+//                      style: TextStyle(
+//                          color: Colors.grey.shade400,
+//                          fontFamily: 'Raleway'),
+//                    ),
+//                  ],
+//                ),
+//              )
+//            ]),
+//          ),
+//        ),
+//      ),
+//    );
   }
 
   IconData getIcon(String data) {
@@ -508,5 +577,48 @@ class _MainPageViewState extends State<MainPageView> {
     await prefs.setString("lastDay", now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString());
     await prefs.setString("mood", data);
     await f.collection("moods").add({'date' : now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString(), 'mood' : data});
+  }
+
+  String getDate(DateTime date) {
+    String myDate = date.day.toString() + " ";
+    switch(date.month.toString()) {
+      case "1":
+        myDate += "january";
+        break;
+      case "2":
+        myDate += "february";
+        break;
+      case "3":
+        myDate += "march";
+        break;
+      case "4":
+        myDate += "april";
+        break;
+      case "5":
+        myDate += "may";
+        break;
+      case "6":
+        myDate += "june";
+        break;
+      case "7":
+        myDate += "july";
+        break;
+      case "8":
+        myDate += "august";
+        break;
+      case "9":
+        myDate += "september";
+        break;
+      case "10":
+        myDate += "october";
+        break;
+      case "11":
+        myDate += "november";
+        break;
+      case "12":
+        myDate += "december";
+        break;
+    }
+    return myDate + " " + date.year.toString();
   }
 }

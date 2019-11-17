@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: FutureBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
-            return ProfilePage();
+            return LandingView();
           } else {
             return Center(child: CircularProgressIndicator());
           }
