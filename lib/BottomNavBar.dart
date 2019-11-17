@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'AddEvents/AddMember.dart';
 import 'AddEvents/AddMemory.dart';
 import 'AddEvents/AddReminder.dart';
 import 'Global.dart';
@@ -102,6 +103,24 @@ class BottomNavBarState extends State<BottomNavBar> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => AddEvent()),
+                      );
+                    }
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: 'Add family member',
+                labelColor: Colors.white,
+                labelBackgroundColor: Colors.deepPurple.shade300,
+                currentButton: FloatingActionButton(
+                    heroTag: "Add family member",
+                    child: Icon(Icons.people),
+                    backgroundColor: Colors.deepPurple.shade300,
+                    mini: true,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddMember()),
                       );
                     }
                 ),
