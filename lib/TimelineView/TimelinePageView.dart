@@ -18,16 +18,13 @@ class _TimelinePageViewState extends State<TimelinePageView> {
       storageBucket: 'gs://binaryapp-79f95.appspot.com/');
   final double cardHeight = 180;
 
-  final String pageTitle = "Your memories";
+  final String pageTitle = "Your memory timeline";
   var global = Global();
 
   final DateTime my_date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.deepPurple.shade300,
@@ -68,17 +65,8 @@ class _TimelinePageViewState extends State<TimelinePageView> {
 
   Widget buildList(List<DocumentSnapshot> snapshot) {
     return ListView(
-      padding: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.only(bottom:50),
       children: snapshot.map((data) => buildItem(EventObject.fromSnapshot(data))).toList(),
-    );
-  }
-
-  oldList() {
-    return new ListView.builder(
-      itemBuilder: (BuildContext context, int index) {
-
-      },
-      itemCount: 5,
     );
   }
 
@@ -106,24 +94,23 @@ class _TimelinePageViewState extends State<TimelinePageView> {
             top: cardHeight/2,
             left: 0.0,
             child: new Container(
-              height: 50.0,
-              width: 50.0,
+              height: 58.0,
+              width: 58.0,
               decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.circular(25.0),
+                borderRadius: new BorderRadius.circular(29.0),
                 color: Colors.deepPurple.shade400.withOpacity(0.8),
               ),
               child: new Container(
                 margin: new EdgeInsets.all(1.0),
-                height: 50.0,
-                width: 50.0,
+                height: 58.0,
+                width: 58.0,
                 decoration: new BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
                 ),
                 child: new Text(
-                    event.date.split("/")[1]
-                        + " "
-                        + event.date.split("/")[2],
+                  getDate(event.date.split("/")),
+                textAlign: TextAlign.center ,
                     style: TextStyle(
                       color: Colors.deepPurple.shade400,
                       fontWeight: FontWeight.bold,
@@ -136,5 +123,48 @@ class _TimelinePageViewState extends State<TimelinePageView> {
         ],
       ),
     );
+  }
+
+  String getDate(List<String> date) {
+    String myDate = date[0] + "\n";
+    switch(date[1]) {
+      case "01":
+        myDate += "jan";
+        break;
+      case "02":
+        myDate += "feb";
+        break;
+      case "03":
+        myDate += "mar";
+        break;
+      case "04":
+        myDate += "apr";
+        break;
+      case "05":
+        myDate += "may";
+        break;
+      case "06":
+        myDate += "june";
+        break;
+      case "07":
+        myDate += "july";
+        break;
+      case "08":
+        myDate += "aug";
+        break;
+      case "09":
+        myDate += "sept";
+        break;
+      case "10":
+        myDate += "oct";
+        break;
+      case "11":
+        myDate += "nov";
+        break;
+      case "12":
+        myDate += "dec";
+        break;
+    }
+    return myDate + "\n" + date[2];
   }
 }

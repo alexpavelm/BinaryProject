@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -22,14 +23,20 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: FutureBuilder(builder: (_, snapshot) {
-          if(true) {
+          if(snapshot.connectionState == ConnectionState.done) {
             return BottomNavBar();
           } else {
-            return LandingView();
+            return Center(child: CircularProgressIndicator());
           }
         },
-        future: global.userID,),
+        future: getProfile(),),
       ),
     );
+  }
+
+  Future getProfile() async {
+    var firebase = Firestore.instance;
+    global.profile = await firebase.collection("profiles").reference().document(global.user.toString()).get();
+    return global.profile;
   }
 }
