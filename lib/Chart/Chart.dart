@@ -16,7 +16,9 @@ class _ChartState extends State<Chart> {
 
   @override
   Widget build(BuildContext context) {
-    buildBody();
+    return Container(
+      child: buildBody(),
+    );
   }
 
   Widget buildBody() {
@@ -33,13 +35,13 @@ class _ChartState extends State<Chart> {
 
   _convert(String mood) {
     if (mood == "great")
-      return 1000;
+      return 40;
     if (mood == "good")
-      return 800;
+      return 35;
     if (mood == "meh")
-      return 400;
+      return 30;
     if (mood == "bad")
-      return 100;
+      return 20;
   }
 
   Widget buildList(List<DocumentSnapshot> snapshot) {
