@@ -9,6 +9,7 @@ class Global {
 
   Global._internal();
   List<DocumentSnapshot> events;
+  List<DocumentSnapshot> moods;
   List<DocumentSnapshot> tasks;
 
   Future userID;
