@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
+import '../LoadingView.dart';
 
 var global = Global();
 
-class LandingView extends StatelessWidget {
+class LandingView extends StatefulWidget {
+  @override
+  _LandingViewState createState() => _LandingViewState();
+}
+
+class _LandingViewState extends State<LandingView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return global.careTaker == null ? Scaffold(
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -22,16 +29,16 @@ class LandingView extends StatelessWidget {
                     fontFamily: 'Raleway', color: Colors.black87, fontSize: 35, fontWeight: FontWeight.w800),
               ),
             ),
-             Padding(
-               padding: const EdgeInsets.only(bottom: 35 , left: 40, right: 40),
-               child: Text("Keep track of your daily activities and never miss out on the important things in life.",
+            Padding(
+              padding: const EdgeInsets.only(bottom: 35 , left: 40, right: 40),
+              child: Text("Keep track of your daily activities and never miss out on the important things in life.",
                 maxLines: 3,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
                   fontFamily: 'Raleway',
                 ),),
-             ),
+            ),
 
             RaisedButton(
               padding: const EdgeInsets.only(left: 50, right: 50),
@@ -46,8 +53,10 @@ class LandingView extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   side: BorderSide(color: Colors.deepPurple)),
               onPressed: () {
-                //FIREBASE AUTH
-                global.userID = Future.delayed(Duration(seconds: 1));
+                setState(() {
+                  global.careTaker = false;
+                  setCareTaker(false);
+                });
               },
             ),
             RaisedButton(
@@ -62,11 +71,21 @@ class LandingView extends StatelessWidget {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15),
                   side: BorderSide(color: Colors.deepPurple)),
-              onPressed: () {},
+              onPressed: () {
+                setState(() {
+                  global.careTaker = true;
+                  setCareTaker(true);
+                });
+              },
             ),
           ],
         ),
       ),
-    );
+    ) : LoadingView();
+  }
+
+  setCareTaker(bool data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("careTaker", data);
   }
 }
