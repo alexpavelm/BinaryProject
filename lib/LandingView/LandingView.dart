@@ -22,6 +22,8 @@ class _LandingViewState extends State<LandingView> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+          	Image.asset('assets/logo.png',
+            width: 100),
             Padding(
               padding: const EdgeInsets.only(bottom: 60),
               child: Text(

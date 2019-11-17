@@ -29,7 +29,7 @@ class _MainPageViewState extends State<MainPageView> {
           Colors.blue.shade200,
           Colors.deepPurpleAccent.shade100.withOpacity(.5)
         ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             welcomeWidget(),
             feedbackWidget(),
@@ -84,7 +84,7 @@ class _MainPageViewState extends State<MainPageView> {
                                 color: Colors.black.withOpacity(.6),
                                 fontSize: 18),
                             ),
-                          (DateTime.now().hour > 12)?Icon(Icons.wb_sunny):
+                          (DateTime.now().hour > 7 && DateTime.now().hour < 21)?Icon(Icons.wb_sunny):
                           Icon(FontAwesomeIcons.moon, color: Colors.black54, size: 20)
                         ],
                       ),
@@ -116,7 +116,7 @@ class _MainPageViewState extends State<MainPageView> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 4,
+        height: MediaQuery.of(context).size.height / 3,
         width: MediaQuery.of(context).size.width,
         child: Card(
           elevation: 10,
@@ -199,7 +199,7 @@ class _MainPageViewState extends State<MainPageView> {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
-        height: MediaQuery.of(context).size.height / 6,
+        height: MediaQuery.of(context).size.height / 4+20,
         width: MediaQuery.of(context).size.width,
         child: Card(
           elevation: 10,
@@ -208,15 +208,14 @@ class _MainPageViewState extends State<MainPageView> {
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(children: <Widget>[
-            CachedNetworkImage(
-              imageUrl:
-              "https://firebasestorage.googleapis.com/v0/b/binaryapp-79f95.appspot.com/o/City-break-paris-2019.jpg?alt=media&token=89d81fae-73ff-45d1-8850-5c4c410275e6",
-              placeholder: (context, url) => CircularProgressIndicator(),
+
+            Image.network("https://firebasestorage.googleapis.com/v0/b/binaryapp-79f95.appspot.com/o/City-break-paris-2019.jpg?alt=media&token=89d81fae-73ff-45d1-8850-5c4c410275e6",
+              scale:0.5
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                width: MediaQuery.of(context).size.width / 8 * 5 -70,
+                width: MediaQuery.of(context).size.width / 8 * 4 -100,
                 child: InkWell(
             onTap: () {
               Navigator.push(
@@ -234,11 +233,12 @@ class _MainPageViewState extends State<MainPageView> {
                         rec.title,
                         style: TextStyle(
                             fontFamily: 'Raleway',
-                            fontSize: 20,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                         ),
                       ),
                       Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Text(
                             "Remember this? You were here on "
@@ -331,7 +331,7 @@ class _MainPageViewState extends State<MainPageView> {
       return Padding(
         padding: const EdgeInsets.all(4.0),
         child: Container(
-          height: MediaQuery.of(context).size.height / 6,
+          height: MediaQuery.of(context).size.height / 5+30,
           width: MediaQuery.of(context).size.width,
           child: Card(
             elevation: 10,
@@ -357,11 +357,11 @@ class _MainPageViewState extends State<MainPageView> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Padding(
-                                  padding: const EdgeInsets.all(5.0),
+                                  padding: const EdgeInsets.all(2.0),
                                   child: Hero(
                                     child: Icon(
                                       getIcon(global.selectedMood),
-                                      size: 35,
+                                      size: 30,
                                       color: Colors.black.withOpacity(0.6),
                                     ),
                                     tag: "icon",
@@ -388,7 +388,7 @@ class _MainPageViewState extends State<MainPageView> {
       );
     } else {
       return Padding(
-        padding: const EdgeInsets.all(4.0),
+        padding: const EdgeInsets.all(1.0),
         child: Container(
           height: MediaQuery.of(context).size.height / 6,
           width: MediaQuery.of(context).size.width,
@@ -409,14 +409,14 @@ class _MainPageViewState extends State<MainPageView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(4.0),
+                      padding: const EdgeInsets.all(2.0),
                       child: Container(
                         width: 80,
                         height: 70,
                         child: Column(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.all(5.0),
+                              padding: const EdgeInsets.all(1.0),
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
