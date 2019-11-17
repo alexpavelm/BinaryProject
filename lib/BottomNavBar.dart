@@ -113,7 +113,7 @@ class BottomNavBarState extends State<BottomNavBar> {
                 labelColor: Colors.white,
                 labelBackgroundColor: Colors.deepPurple.shade300,
                 currentButton: FloatingActionButton(
-                    heroTag: "3",
+                    heroTag: "Add family member",
                     child: Icon(Icons.people),
                     backgroundColor: Colors.deepPurple.shade300,
                     mini: true,

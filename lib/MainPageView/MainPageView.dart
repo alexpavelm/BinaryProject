@@ -84,7 +84,7 @@ class _MainPageViewState extends State<MainPageView> {
                                 color: Colors.black.withOpacity(.6),
                                 fontSize: 18),
                             ),
-                          (DateTime.now().hour > 12)?Icon(Icons.wb_sunny):
+                          (DateTime.now().hour > 7 && DateTime.now().hour < 21)?Icon(Icons.wb_sunny):
                           Icon(FontAwesomeIcons.moon, color: Colors.black54, size: 20)
                         ],
                       ),
