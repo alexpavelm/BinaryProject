@@ -62,67 +62,67 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Birth date: ",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w800,
+                      )),
+                  Text(profile.birth,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w500,
+                      )),
+                ],
+              ),
+            ),
+            Padding(
+                padding: const EdgeInsets.only(
+                    top: 4, bottom: 4, left: 50, right: 50),
+                child: Column(
                   children: <Widget>[
-                    Text("Birth date: " ,
+                    Text("Home address: ",
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w800,
                         )),
-                    Text(profile.birth,
+                    Text(profile.address,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w500,
                         )),
                   ],
-                ),
-            ),
+                )),
             Padding(
-                  padding: const EdgeInsets.only(
-                      top: 4, bottom: 4, left: 50, right: 50),
-                  child: Column(
-                    children: <Widget>[
-                      Text("Home address: ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w800,
-                          )),
-                      Text(profile.address,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ],
-                  )),
-              Padding(
-                  padding: const EdgeInsets.only(
-                      top: 4, bottom: 4, left: 50, right: 50),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Blood type: ",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w800,
-                          )),
-                      Text(profile.blood,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ],
-                  )),
+                padding: const EdgeInsets.only(
+                    top: 4, bottom: 4, left: 50, right: 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Blood type: ",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w800,
+                        )),
+                    Text(profile.blood,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w500,
+                        )),
+                  ],
+                )),
             Padding(
               padding: const EdgeInsets.only(
                   top: 20.0, bottom: 20, left: 40, right: 40),
@@ -137,17 +137,34 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.w700,
                   )),
             ),
-            Column(
-              children: profile.family == "" ? [SizedBox.shrink()] : profile.family
-                  .split("*")
-                  .map((data) => familyCard(data))
-                  .toList(),
-            )
+            buildBody(profile)
           ],
         ),
       ),
     );
   }
+}
+
+Widget buildBody(ProfileObject profile) {
+  return StreamBuilder<QuerySnapshot>(
+    stream: Firestore.instance.collection('profiles').snapshots(),
+    builder: (BuildContext context,
+        AsyncSnapshot<QuerySnapshot> snapshot) {
+      if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+      else
+      return Column(
+        children: profile.family == ""
+            ? [SizedBox.shrink()]
+            : snapshot.data.documents
+                .firstWhere((a) => a.data['id'] == Global().user)
+                .data['family']
+                .toString()
+                .split("*")
+                .map((data) => familyCard(data))
+                .toList(),
+      );
+    },
+  );
 }
 
 Widget familyCard(String data) {

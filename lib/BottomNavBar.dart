@@ -77,7 +77,7 @@ class BottomNavBarState extends State<BottomNavBar> {
                 labelColor: Colors.white,
                 labelBackgroundColor: Colors.deepPurple.shade300,
                 currentButton: FloatingActionButton(
-                    heroTag: "Add memory",
+                    heroTag: "1",
                     child: Icon(Icons.add_a_photo),
                     backgroundColor: Colors.deepPurple.shade300,
                     mini: true,
@@ -95,7 +95,7 @@ class BottomNavBarState extends State<BottomNavBar> {
                 labelColor: Colors.white,
                 labelBackgroundColor: Colors.deepPurple.shade300,
                 currentButton: FloatingActionButton(
-                    heroTag: "Add reminder",
+                    heroTag: "2",
                     child: Icon(Icons.calendar_today),
                     backgroundColor: Colors.deepPurple.shade300,
                     mini: true,
