@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:binary_project/Chart/Chart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +32,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
         child: Column(
           children: <Widget>[
             welcomeWidget(),
-            recommendWidget(),
+            chartWidget()
 //            memoryWidget(),
 //            feedbackWidget()
           ],
@@ -39,6 +40,18 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
       ),
     );
   }
+
+  chartWidget() {
+    return Padding(
+        padding: const EdgeInsets.only(top:4.0, left:4.0, right: 4.0),
+        child: Container(
+          height: MediaQuery.of(context).size.height/2,
+          width: MediaQuery.of(context).size.width,
+          child: new Chart(),
+        ),
+    );
+  }
+
 
   welcomeWidget() {
     return Padding(
@@ -55,7 +68,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+//                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
                           global.profile.data['name'].toString().split(" ")[0] +
@@ -65,7 +78,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.bold,
                           color: Colors.black.withOpacity(.6),
-                          fontSize: 23),
+                          fontSize: 15),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -155,14 +168,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                     fontSize: 20,
                   )
                 ),
-            new GoogleMap(
-                initialCameraPosition: _myLocation,
-                mapType: MapType.normal,
-//??????????????????????????
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
 
-              }),
+
               ],
             ),
           ),
@@ -342,7 +349,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    getIcon(global.selectedMood),
+                                      FontAwesomeIcons.laughBeam,
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -380,7 +387,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    getIcon(global.selectedMood),
+                                    FontAwesomeIcons.smile,
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -418,7 +425,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    getIcon(global.selectedMood),
+                                    FontAwesomeIcons.meh,
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -456,7 +463,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    getIcon(global.selectedMood),
+                                    FontAwesomeIcons.frown,
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
