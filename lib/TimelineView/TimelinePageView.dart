@@ -169,6 +169,6 @@ class _TimelinePageViewState extends State<TimelinePageView> {
         myDate += "dec";
         break;
     }
-    return myDate + " " + date.year.toString();
+    return myDate + "\n" + date.year.toString();
   }
 }
