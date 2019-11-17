@@ -86,7 +86,7 @@ class _TimelinePageViewState extends State<TimelinePageView> {
           new Positioned(
             top: 0.0,
             bottom: 0.0,
-            left: 25.0,
+            left: 28.5,
             child: new Container(
               height: double.infinity,
               width: 1.0,

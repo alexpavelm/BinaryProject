@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
@@ -29,8 +32,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           children: <Widget>[
             welcomeWidget(),
             recommendWidget(),
-            memoryWidget(),
-            feedbackWidget()
+//            memoryWidget(),
+//            feedbackWidget()
           ],
         ),
       ),
@@ -39,7 +42,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
 
   welcomeWidget() {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(top:4.0, left:4.0, right: 4.0),
       child: Container(
         height: MediaQuery.of(context).size.height / 5,
         width: MediaQuery.of(context).size.width,
@@ -47,7 +50,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left:8.0, right:8.0, top:8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -55,14 +58,36 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Hey, " +
                           global.profile.data['name'].toString().split(" ")[0] +
-                          "!",
+                          "\nis currently feeling\n",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.bold,
                           color: Colors.black.withOpacity(.6),
                           fontSize: 23),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          getIcon(global.selectedMood),
+                          size: 35,
+                          color: Colors.black.withOpacity(0.6),
+                        ),
+                        new Container(
+                          width: 15,
+                        ),
+                        new Text(
+                          global.selectedMood,
+                          style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black.withOpacity(.6),
+                              fontSize: 23),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0),
@@ -105,6 +130,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
   }
 
   recommendWidget() {
+    Completer<GoogleMapController> _controller = Completer();
+    CameraPosition _myLocation = CameraPosition(target: LatLng(0, 0),);
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
@@ -117,68 +144,25 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  width: 330,
-                  child: Text(
-                    "Have you eaten your breakfast? If not, here are some suggestions:",
-                    style: TextStyle(
-                        fontFamily: 'Raleway',
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black.withOpacity(.7)),
-                  ),
+                new Text(
+                    "Your patient's location" +
+                        "this does not work im sorry",
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  )
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 70,
-                              child: Image.asset("assets/bacon.png"),
-                            ),
-                            Text("Bacon",
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black.withOpacity(.7))),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 70,
-                              child: Image.asset("assets/pancakes.png"),
-                            ),
-                            Text("Pancakes",
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.black.withOpacity(.7))),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+            new GoogleMap(
+                initialCameraPosition: _myLocation,
+                mapType: MapType.normal,
+//??????????????????????????
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+
+              }),
               ],
             ),
           ),
@@ -358,7 +342,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    FontAwesomeIcons.laughBeam,
+                                    getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -396,7 +380,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    FontAwesomeIcons.smile,
+                                    getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -434,7 +418,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    FontAwesomeIcons.meh,
+                                    getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -472,7 +456,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                 },
                                 child: Hero(
                                   child: Icon(
-                                    FontAwesomeIcons.frown,
+                                    getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
                                   ), tag: "icon",
@@ -508,5 +492,39 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
     await prefs.setString("lastDay", now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString());
     await prefs.setString("mood", data);
     await f.collection("moods").add({'date' : now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString(), 'mood' : data});
+  }
+
+  Icon patientMood(String mood) {
+    switch(mood) {
+      case "bad":
+        return Icon(
+          FontAwesomeIcons.frown,
+          size: 35,
+          color: Colors.black.withOpacity(0.6),
+        );
+        break;
+      case "good":
+        return Icon(
+          FontAwesomeIcons.smile,
+          size: 35,
+          color: Colors.black.withOpacity(0.6),
+        );
+        break;
+      case "great":
+        return Icon(
+          FontAwesomeIcons.laughBeam,
+          size: 35,
+          color: Colors.black.withOpacity(0.6),
+        );
+        break;
+      case "meh":
+        return Icon(
+          FontAwesomeIcons.meh,
+          size: 35,
+          color: Colors.black.withOpacity(0.6),
+        );
+        break;
+
+    }
   }
 }
