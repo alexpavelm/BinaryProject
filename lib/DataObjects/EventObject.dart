@@ -7,7 +7,7 @@ class EventObject {
 
   final String title;
   final String images;
-  final String date;
+  final Timestamp date;
   final String text;
   final DocumentReference reference;
 

@@ -57,7 +57,11 @@ class _TimelinePageViewState extends State<TimelinePageView> {
       stream: Firestore.instance.collection('events').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
-        global.events = snapshot.data.documents;
+        snapshot.data.documents.sort((a, b) => EventObject.fromSnapshot(a).date
+            .compareTo(EventObject.fromSnapshot(b).date));
+        global.events = snapshot
+            .data
+            .documents;
         return buildList(global.events);
       },
     );
@@ -109,7 +113,7 @@ class _TimelinePageViewState extends State<TimelinePageView> {
                   color: Colors.white,
                 ),
                 child: new Text(
-                  getDate(event.date.split("/")),
+                  getDate(event.date.toDate()),
                 textAlign: TextAlign.center ,
                     style: TextStyle(
                       color: Colors.deepPurple.shade400,
@@ -125,34 +129,34 @@ class _TimelinePageViewState extends State<TimelinePageView> {
     );
   }
 
-  String getDate(List<String> date) {
-    String myDate = date[0] + "\n";
-    switch(date[1]) {
-      case "01":
+  String getDate(DateTime date) {
+    String myDate = date.day.toString() + "\n";
+    switch(date.month.toString()) {
+      case "1":
         myDate += "jan";
         break;
-      case "02":
+      case "2":
         myDate += "feb";
         break;
-      case "03":
+      case "3":
         myDate += "mar";
         break;
-      case "04":
+      case "4":
         myDate += "apr";
         break;
-      case "05":
+      case "5":
         myDate += "may";
         break;
-      case "06":
+      case "6":
         myDate += "june";
         break;
-      case "07":
+      case "7":
         myDate += "july";
         break;
-      case "08":
+      case "8":
         myDate += "aug";
         break;
-      case "09":
+      case "9":
         myDate += "sept";
         break;
       case "10":
@@ -165,6 +169,6 @@ class _TimelinePageViewState extends State<TimelinePageView> {
         myDate += "dec";
         break;
     }
-    return myDate + "\n" + date[2];
+    return myDate + " " + date.year.toString();
   }
 }
