@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
 import '../LoadingView.dart';
+import '../RegisterView.dart';
 
 var global = Global();
 
@@ -81,7 +82,7 @@ class _LandingViewState extends State<LandingView> {
           ],
         ),
       ),
-    ) : LoadingView();
+    ) : RegisterView();
   }
 
   setCareTaker(bool data) async {

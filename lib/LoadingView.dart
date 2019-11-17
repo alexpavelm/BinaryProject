@@ -30,6 +30,10 @@ class _LoadingViewState extends State<LoadingView> {
   Future getProfile() async {
     var firebase = Firestore.instance;
     global.profile = await firebase.collection("profiles").reference().document(global.user.toString()).get();
+    print("i got it on " + global.user.toString());
+    if(global.careTaker == false) {
+      await global.profile.reference.updateData({'isRegistered' : true});
+    }
     return global.profile;
   }
 }

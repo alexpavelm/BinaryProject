@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
@@ -22,35 +23,58 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: <Color>[
-              Colors.blue.shade200,
-              Colors.green.shade100.withOpacity(.5)
-            ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
-        child: Column(
-          children: <Widget>[
-            welcomeWidget(),
-            recommendWidget(),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              gradient: LinearGradient(colors: <Color>[
+            Colors.blue.shade200,
+            Colors.deepPurple.shade100.withOpacity(.5)
+          ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: Firestore.instance.collection('profiles').snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  if (snapshot.data.documents.firstWhere((a) => a.data['id'] == global.user).data['isRegistered']) {
+                    return Column(
+                      children: <Widget>[
+                        welcomeWidget(),
+                        recommendWidget(),
 //            memoryWidget(),
 //            feedbackWidget()
-          ],
-        ),
-      ),
+                      ],
+                    );
+                  } else {
+                    return Card(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          QrImage(
+                            data: global.user.toString(),
+                            version: QrVersions.auto,
+                            size: 200.0,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }
+              })),
     );
   }
 
   welcomeWidget() {
     return Padding(
-      padding: const EdgeInsets.only(top:4.0, left:4.0, right: 4.0),
+      padding: const EdgeInsets.only(top: 4.0, left: 4.0, right: 4.0),
       child: Container(
         height: MediaQuery.of(context).size.height / 5,
         width: MediaQuery.of(context).size.width,
         child: Card(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
-            padding: const EdgeInsets.only(left:8.0, right:8.0, top:8.0),
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
@@ -58,7 +82,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                          global.profile.data['name'].toString().split(" ")[0] +
+                      global.profile.data['name'].toString().split(" ")[0] +
                           "\nis currently feeling\n",
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -94,15 +118,20 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                            DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString() + "  ",
+                            DateTime.now().hour.toString() +
+                                ":" +
+                                DateTime.now().minute.toString() +
+                                "  ",
                             style: TextStyle(
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black.withOpacity(.6),
                                 fontSize: 18),
                           ),
-                          (DateTime.now().hour > 12)?Icon(Icons.wb_sunny):
-                          Icon(FontAwesomeIcons.moon, color: Colors.black54, size: 20)
+                          (DateTime.now().hour > 12)
+                              ? Icon(Icons.wb_sunny)
+                              : Icon(FontAwesomeIcons.moon,
+                                  color: Colors.black54, size: 20)
                         ],
                       ),
                     )
@@ -131,7 +160,9 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
 
   recommendWidget() {
     Completer<GoogleMapController> _controller = Completer();
-    CameraPosition _myLocation = CameraPosition(target: LatLng(0, 0),);
+    CameraPosition _myLocation = CameraPosition(
+      target: LatLng(0, 0),
+    );
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Container(
@@ -140,29 +171,26 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
         child: Card(
           elevation: 10,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                    "Your patient's location" +
-                        "this does not work im sorry",
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  )
-                ),
-            new GoogleMap(
-                initialCameraPosition: _myLocation,
-                mapType: MapType.normal,
+                    "Your patient's location" + "this does not work im sorry",
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    )),
+                new GoogleMap(
+                    initialCameraPosition: _myLocation,
+                    mapType: MapType.normal,
 //??????????????????????????
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-
-              }),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    }),
               ],
             ),
           ),
@@ -182,11 +210,11 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(children: <Widget>[
             CachedNetworkImage(
               imageUrl:
-              "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
+                  "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
               placeholder: (context, url) => CircularProgressIndicator(),
             ),
             Padding(
@@ -231,11 +259,19 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
   }
 
   IconData getIcon(String data) {
-    switch(data) {
-      case "Great": return FontAwesomeIcons.laughBeam; break;
-      case "Good": return FontAwesomeIcons.smile; break;
-      case "Meh": return FontAwesomeIcons.meh; break;
-      default : return FontAwesomeIcons.frown; break;
+    switch (data) {
+      case "Great":
+        return FontAwesomeIcons.laughBeam;
+        break;
+      case "Good":
+        return FontAwesomeIcons.smile;
+        break;
+      case "Meh":
+        return FontAwesomeIcons.meh;
+        break;
+      default:
+        return FontAwesomeIcons.frown;
+        break;
     }
   }
 
@@ -251,7 +287,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           child: Card(
             elevation: 10,
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(3.0),
@@ -310,7 +346,7 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           child: Card(
             elevation: 10,
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Column(
               children: <Widget>[
                 Padding(
@@ -345,7 +381,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                     getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
-                                  ), tag: "icon",
+                                  ),
+                                  tag: "icon",
                                 ),
                               ),
                             ),
@@ -383,7 +420,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                     getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
-                                  ), tag: "icon",
+                                  ),
+                                  tag: "icon",
                                 ),
                               ),
                             ),
@@ -421,7 +459,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                     getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
-                                  ), tag: "icon",
+                                  ),
+                                  tag: "icon",
                                 ),
                               ),
                             ),
@@ -459,7 +498,8 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
                                     getIcon(global.selectedMood),
                                     size: 35,
                                     color: Colors.black.withOpacity(0.6),
-                                  ), tag: "icon",
+                                  ),
+                                  tag: "icon",
                                 ),
                               ),
                             ),
@@ -489,13 +529,26 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
     var f = Firestore.instance;
     var now = DateTime.now();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("lastDay", now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString());
+    await prefs.setString(
+        "lastDay",
+        now.day.toString() +
+            "/" +
+            now.month.toString() +
+            "/" +
+            now.year.toString());
     await prefs.setString("mood", data);
-    await f.collection("moods").add({'date' : now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString(), 'mood' : data});
+    await f.collection("moods").add({
+      'date': now.day.toString() +
+          "/" +
+          now.month.toString() +
+          "/" +
+          now.year.toString(),
+      'mood': data
+    });
   }
 
   Icon patientMood(String mood) {
-    switch(mood) {
+    switch (mood) {
       case "bad":
         return Icon(
           FontAwesomeIcons.frown,
@@ -524,7 +577,6 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
           color: Colors.black.withOpacity(0.6),
         );
         break;
-
     }
   }
 }
