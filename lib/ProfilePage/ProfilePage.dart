@@ -138,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   )),
             ),
             Column(
-              children: profile.family
+              children: profile.family == "" ? [SizedBox.shrink()] : profile.family
                   .split("*")
                   .map((data) => familyCard(data))
                   .toList(),

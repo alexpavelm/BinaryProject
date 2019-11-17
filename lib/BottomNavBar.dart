@@ -24,7 +24,7 @@ class BottomNavBar extends StatefulWidget {
 class BottomNavBarState extends State<BottomNavBar> {
   static var global = Global();
   final List<Widget> _children = [
-    (global.careTaker == true)?MainPageView():MainCareTakerView(),
+    (global.careTaker == false)?MainPageView():MainCareTakerView(),
     ToDoList(),
     TimelinePageView(),
     ProfilePage(),

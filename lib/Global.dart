@@ -16,6 +16,7 @@ class Global {
 
   Future userID;
   bool careTaker;
+  bool isRegistered = false;
   DocumentSnapshot profile;
   int user = 0;
   DateTime lastDay = DateTime(2019, 11, 16);

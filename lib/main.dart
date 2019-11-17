@@ -8,7 +8,6 @@ import 'Global.dart';
 import 'LandingView/LandingView.dart';
 import 'LoadingView.dart';
 import 'MainPageView/MainPageView.dart';
-import 'ProfilePage/ProfilePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -40,10 +39,11 @@ class MyApp extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     List<String> data = (prefs.getString('lastDay') ?? "15/05/2019").split("/");
     global.careTaker = (prefs.getBool('careTaker') ?? null);
-    global.user = (prefs.getInt('user') ?? 0);
+    global.user = (prefs.getInt('user') ?? null);
+    global.isRegistered = (prefs.getBool('register') ?? false);
     global.selectedMood = (prefs.getString('mood') ?? "Good");
     global.lastDay = DateTime(int.parse(data[2]), int.parse(data[1]), int.parse(data[0]));
-    return global.careTaker;
+    return global.user;
   }
 
 }
