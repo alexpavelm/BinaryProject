@@ -147,21 +147,22 @@ class _MainCareTakerViewState extends State<MainCareTakerView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 new Text(
-                    "Your patient's location",
+                    "Your patient's location" +
+                        "this does not work im sorry",
                   style: TextStyle(
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                   )
                 ),
-//            new GoogleMap(
-//                initialCameraPosition: _myLocation,
-//                mapType: MapType.normal,
-//
-//              onMapCreated: (GoogleMapController controller) {
-//                _controller.complete(controller);
-//
-//              }),
+            new GoogleMap(
+                initialCameraPosition: _myLocation,
+                mapType: MapType.normal,
+//??????????????????????????
+              onMapCreated: (GoogleMapController controller) {
+                _controller.complete(controller);
+
+              }),
               ],
             ),
           ),
