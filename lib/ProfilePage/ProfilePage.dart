@@ -62,39 +62,67 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
-              child: Center(
-                child: Text("Birth date: " + profile.birth,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w500,
-                    )),
-              ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Birth date: " ,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w800,
+                        )),
+                    Text(profile.birth,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w500,
+                        )),
+                  ],
+                ),
             ),
-            Center(
-              child: Padding(
+            Padding(
                   padding: const EdgeInsets.only(
                       top: 4, bottom: 4, left: 50, right: 50),
-                  child: Text("Address: " + profile.address,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                      ))),
-            ),
-            Center(
-              child: Padding(
+                  child: Column(
+                    children: <Widget>[
+                      Text("Home address: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w800,
+                          )),
+                      Text(profile.address,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ],
+                  )),
+              Padding(
                   padding: const EdgeInsets.only(
                       top: 4, bottom: 4, left: 50, right: 50),
-                  child: Text("Blood type: " + profile.blood,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                      ))),
-            ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Blood type: ",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w800,
+                          )),
+                      Text(profile.blood,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w500,
+                          )),
+                    ],
+                  )),
             Padding(
               padding: const EdgeInsets.only(
                   top: 20.0, bottom: 20, left: 40, right: 40),
