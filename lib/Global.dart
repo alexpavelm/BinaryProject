@@ -1,3 +1,5 @@
+import 'package:binary_project/DataObjects/EventObject.dart';
+import 'package:binary_project/LandingView/LandingView.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Global {
@@ -19,4 +21,5 @@ class Global {
   int user = 0;
   DateTime lastDay = DateTime(2019, 11, 16);
   String selectedMood = "Bad";
+  EventObject recommendedEvent;
 }
