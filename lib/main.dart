@@ -8,6 +8,7 @@ import 'Global.dart';
 import 'LandingView/LandingView.dart';
 import 'LoadingView.dart';
 import 'MainPageView/MainPageView.dart';
+import 'ProfilePage/ProfilePage.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,12 +21,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Hackathon App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepPurple,
       ),
       home: Scaffold(
         body: FutureBuilder(builder: (BuildContext context, AsyncSnapshot snapshot) {
           if(snapshot.connectionState == ConnectionState.done) {
-            return LandingView();
+            return ProfilePage();
           } else {
             return Center(child: CircularProgressIndicator());
           }
