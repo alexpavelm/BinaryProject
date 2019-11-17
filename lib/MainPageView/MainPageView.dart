@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
 
@@ -190,7 +191,7 @@ class _MainPageViewState extends State<MainPageView> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                width: 210,
+                width: MediaQuery.of(context).size.width / 8 * 5 - 50,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -335,7 +336,7 @@ class _MainPageViewState extends State<MainPageView> {
                                   setState(() {
                                     global.lastDay = today;
                                     global.selectedMood = "Great";
-                                    sendMood("great");
+                                    sendMood("Great");
                                   });
                                 },
                                 child: Hero(
@@ -373,7 +374,7 @@ class _MainPageViewState extends State<MainPageView> {
                                   setState(() {
                                     global.lastDay = today;
                                     global.selectedMood = "Good";
-                                    sendMood("good");
+                                    sendMood("Good");
                                   });
                                 },
                                 child: Hero(
@@ -411,7 +412,7 @@ class _MainPageViewState extends State<MainPageView> {
                                   setState(() {
                                     global.lastDay = today;
                                     global.selectedMood = "Meh";
-                                    sendMood("meh");
+                                    sendMood("Meh");
                                   });
                                 },
                                 child: Hero(
@@ -449,7 +450,7 @@ class _MainPageViewState extends State<MainPageView> {
                                   setState(() {
                                     global.lastDay = today;
                                     global.selectedMood = "Bad";
-                                    sendMood("bad");
+                                    sendMood("Bad");
                                   });
                                 },
                                 child: Hero(
@@ -486,6 +487,9 @@ class _MainPageViewState extends State<MainPageView> {
   sendMood(String data) async {
     var f = Firestore.instance;
     var now = DateTime.now();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("lastDay", now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString());
+    await prefs.setString("mood", data);
     await f.collection("moods").add({'date' : now.day.toString() + "/" + now.month.toString() + "/" + now.year.toString(), 'mood' : data});
   }
 }
