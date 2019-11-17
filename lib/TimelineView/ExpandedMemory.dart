@@ -36,9 +36,7 @@ class ExpandedMemory extends StatelessWidget {
             gradient: LinearGradient(colors: <Color>[
               Colors.blue.shade200,
               Colors.deepPurpleAccent.shade100.withOpacity(.5)
-            ],
-                begin: Alignment.topRight, end: Alignment.bottomLeft)
-        ),
+            ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
         child: fullMemory(),
       ),
     );
@@ -47,113 +45,112 @@ class ExpandedMemory extends StatelessWidget {
   Widget fullMemory() {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Card(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              // title
-              new Text(
-                event.title,
-                style: TextStyle(
-                  fontSize: 25,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.bold,
-                )
-              ),
-              new Container(
-                height: 10,
-              ),
-              new Container(
-                color: Colors.grey.withOpacity(0.8),
-                alignment: Alignment.center,
+      child: Center(
+        child: Container(
+          alignment: Alignment.topCenter,
+          child: Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
+//            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  // title
+                  new Text(
+                    event.title,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                  new Container(
+                    height: 10,
+                  ),
+                  new Container(
+                    color: Colors.grey.withOpacity(0.8),
+                    alignment: Alignment.center,
 //                width: 20,
-                height: 0.5,
-              ),
-              new Container(
-                height: 10,
-              ),
-              new Text(
-                event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
-                    event.text+
+                    height: 0.5,
+                  ),
+                  new Container(
+                    height: 10,
+                  ),
+                  new Text(
                     event.text,
-                style: TextStyle(
-                  fontSize: 15,
-                  fontFamily: 'Raleway',
-                ),
-              ),
-              new Container(
-                height: 10,
-              ),
-              new Container(
-                color: Colors.grey.withOpacity(0.8),
-                alignment: Alignment.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Raleway',
+                    ),
+                  ),
+                  new Container(
+                    height: 10,
+                  ),
+                  new Container(
+                    color: Colors.grey.withOpacity(0.8),
+                    alignment: Alignment.center,
 //                width: 20,
-                height: 0.5,
-              ),
-              new Container(
-                height: 10,
-              ),
-              new Text(
-                "See photos from that day",
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.bold,
-                )
-              ),
-              new Container(
-                height: 10,
-              ),
-              new CarouselSlider(
-                aspectRatio: 16/9,
-                height: 200,
-                viewportFraction: 0.85,
-                initialPage: 0,
-                enableInfiniteScroll: true,
-                reverse: true,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                enlargeCenterPage: true,
-                items: event.images.split(",").map((i) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Container(
-                        width: MediaQuery.of(context).size.width,
-                        margin: EdgeInsets.symmetric(horizontal: 5.0),
-                        child: new InkWell(
-                          onDoubleTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ExpandedImage('$i')),
-                            );
-                          },
-                          child: new Image.network(
-                            '$i',
-                          ),
-                        )
+                    height: 0.5,
+                  ),
+                  new Container(
+                    height: 10,
+                  ),
+                  new Text(
+                    "See photos from that day",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.bold,
+                    )
+                  ),
+                  new Container(
+                    height: 10,
+                  ),
+                  new CarouselSlider(
+                    aspectRatio: 16/9,
+                    height: 200,
+                    viewportFraction: 0.85,
+                    initialPage: 0,
+                    enableInfiniteScroll: true,
+                    reverse: true,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 3),
+                    autoPlayAnimationDuration: Duration(milliseconds: 800),
+                    enlargeCenterPage: true,
+                    items: event.images.split(",").map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            child: new InkWell(
+                              onDoubleTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ExpandedImage('$i')),
+                                );
+                              },
+                              child: new Image.network(
+                                '$i',
+                              ),
+                            )
+                        );
+                      },
                     );
-                  },
-                );
-              }).toList(),)
-            ],
+                  }).toList(),)
+                ],
 
+              ),
+            ),
+            elevation: 10,
           ),
         ),
-        elevation: 10,
       ),
     );
   }
