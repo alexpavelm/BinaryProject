@@ -81,7 +81,7 @@ class _AddmemoryState extends State<Addmemory> {
                 onPressed: () {
                   _pickSaveImage();
                 },
-                textColor: Colors.white,
+                textColor: Colors.deepPurple,
                 shape: RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(15.0),
                 ),
@@ -90,12 +90,6 @@ class _AddmemoryState extends State<Addmemory> {
                   padding: const EdgeInsets.all(13.0),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                    gradient: LinearGradient(
-                      colors: <Color>[
-                        Color(0xFF7B68EE),
-                        Color(0xFF4169E1),
-                      ],
-                    ),
                   ),
                   child: Text('Select photo',
                       style: TextStyle(fontSize: 20, fontFamily: 'raleway')),
