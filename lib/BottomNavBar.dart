@@ -9,6 +9,7 @@ import 'AddEvents/AddMemory.dart';
 import 'AddEvents/AddReminder.dart';
 import 'Global.dart';
 import 'MainPageView/MainPageView.dart';
+import 'MainPageView/MainCareTakerView.dart';
 import 'ProfilePage/ProfilePage.dart';
 import 'Tasks/ToDoList.dart';
 import 'package:unicorndial/unicorndial.dart';
@@ -21,8 +22,9 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class BottomNavBarState extends State<BottomNavBar> {
+  static var global = Global();
   final List<Widget> _children = [
-    MainPageView(),
+    (global.careTaker == true)?MainPageView():MainCareTakerView(),
     ToDoList(),
     TimelinePageView(),
     ProfilePage(),

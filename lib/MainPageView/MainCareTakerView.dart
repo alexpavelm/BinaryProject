@@ -7,12 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Global.dart';
 
-class MainPageView extends StatefulWidget {
+class MainCareTakerView extends StatefulWidget {
   @override
-  _MainPageViewState createState() => _MainPageViewState();
+  _MainCareTakerViewState createState() => _MainCareTakerViewState();
 }
 
-class _MainPageViewState extends State<MainPageView> {
+class _MainCareTakerViewState extends State<MainCareTakerView> {
   var global = Global();
 
   @override
@@ -22,9 +22,9 @@ class _MainPageViewState extends State<MainPageView> {
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: <Color>[
-          Colors.blue.shade200,
-          Colors.deepPurpleAccent.shade100.withOpacity(.5)
-        ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
+              Colors.blue.shade200,
+              Colors.green.shade100.withOpacity(.5)
+            ], begin: Alignment.topRight, end: Alignment.bottomLeft)),
         child: Column(
           children: <Widget>[
             welcomeWidget(),
@@ -45,7 +45,7 @@ class _MainPageViewState extends State<MainPageView> {
         width: MediaQuery.of(context).size.width,
         child: Card(
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -69,13 +69,13 @@ class _MainPageViewState extends State<MainPageView> {
                       child: Row(
                         children: <Widget>[
                           Text(
-                              DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString() + "  ",
-                              style: TextStyle(
+                            DateTime.now().hour.toString() + ":" + DateTime.now().minute.toString() + "  ",
+                            style: TextStyle(
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black.withOpacity(.6),
                                 fontSize: 18),
-                            ),
+                          ),
                           (DateTime.now().hour > 12)?Icon(Icons.wb_sunny):
                           Icon(FontAwesomeIcons.moon, color: Colors.black54, size: 20)
                         ],
@@ -113,7 +113,7 @@ class _MainPageViewState extends State<MainPageView> {
         child: Card(
           elevation: 10,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
@@ -198,11 +198,11 @@ class _MainPageViewState extends State<MainPageView> {
           semanticContainer: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           child: Row(children: <Widget>[
             CachedNetworkImage(
               imageUrl:
-                  "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
+              "https://girafa.ro/wp-content/uploads/2019/09/City-break-paris-2019.jpg",
               placeholder: (context, url) => CircularProgressIndicator(),
             ),
             Padding(
@@ -267,7 +267,7 @@ class _MainPageViewState extends State<MainPageView> {
           child: Card(
             elevation: 10,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(3.0),
@@ -326,7 +326,7 @@ class _MainPageViewState extends State<MainPageView> {
           child: Card(
             elevation: 10,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Column(
               children: <Widget>[
                 Padding(

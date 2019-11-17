@@ -24,7 +24,7 @@ class _LandingViewState extends State<LandingView> {
             Padding(
               padding: const EdgeInsets.only(bottom: 60),
               child: Text(
-                "Sing in",
+                "Sign in",
                 style: TextStyle(
                     fontFamily: 'Raleway', color: Colors.black87, fontSize: 35, fontWeight: FontWeight.w800),
               ),
