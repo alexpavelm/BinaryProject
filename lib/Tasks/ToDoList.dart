@@ -71,7 +71,7 @@ class _ToDoListState extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+      return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.deepPurple.shade300,
         title: new Text(
@@ -109,19 +109,9 @@ class _ToDoListState extends State<ToDoList> {
 
   Widget buildList(List<DocumentSnapshot> snapshot) {
     return ListView(
-      padding: const EdgeInsets.only(top: 5.0),
+      padding: const EdgeInsets.all(4),
       children: snapshot.map((data) => _buildItem(data)).toList(),
     );
   }
 
-//  Column(
-//  children: <Widget>[
-//  _buildItem(ToDo("Make breakfast",
-//  "Would you like an omlette or a bagel, this morning?")),
-//  _buildItem(ToDo("Go out for a walk",
-//  "Should you take a walk in Regent's Park or St James's Park?")),
-//  _buildItem(ToDo("Call a loved one",
-//  "Why don't we give your son, Mark, a call?")),
-//  ],
-//  )
 }
