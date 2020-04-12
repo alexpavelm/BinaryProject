@@ -1,17 +1,21 @@
-# binary_project
+<p align="center">
+  <img width="250" src="/images/profile-family.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="235" src="/images/memory-lane.png">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img width="250" src="/images/profile.png">
+</p>
 
-A new Flutter application.
+# Safespace
+A Flutter application designed to help people with Alzheimer, by always keeping their family close. Conceptually speaking, the "care-taker" would directly connect to a "patient" by scanning a unique QR code. The care-takers would then be able to add tasks to the patient's daily routine, check on their mood, or even add posts to the memory lane.
 
-## Getting Started
+The project was done in a 24h hackathon, focused on resolving health related issues.
 
-This project is a starting point for a Flutter application.
+### Build with
+* Flutter - [online documentation](https://flutter.dev/docs)
+* Dart - [online documentation](https://dart.dev/guides)
+* Firebase - [online documentation](https://firebase.google.com/docs)
 
-A few resources to get you started if this is your first Flutter project:
+### Authors
+* Ivanov Cristina
+* Negoita Paula-Estella
+* Pavel Marian Alexandru
+* Preda Andrada
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-#Binary Project
